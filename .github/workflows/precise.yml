@@ -1,0 +1,33 @@
+name: precise
+on:
+  workflow_dispatch:
+    inputs:
+      animal:
+        description: 'Animal name'
+        required: true
+        default: 'pangolin'
+
+jobs:
+  warthogs:
+    name: Compute intensively through AI and decide which ubuntu distro is the best
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compute distribution name
+        id: set-distro-name
+        shell: bash
+        run: |
+          # Feth workflow distro name
+          set -eu
+
+          echo "name=${{ github.job }}" >> $GITHUB_OUTPUT
+      - name: Select best release ever
+        shell: bash
+        run: |
+          # Selection of best ubuntu release ever
+          set -eu
+
+          release="${GITHUB_WORKFLOW%.*} ${{ steps.set-distro-name.outputs.name }}"
+          echo '### Best release ever' >> $GITHUB_STEP_SUMMARY
+          echo '| Votes | Release | Awesomeness |' >> $GITHUB_STEP_SUMMARY
+          echo '| --- | :---: | :---: |' >> $GITHUB_STEP_SUMMARY
+          echo "| :ok_hand: | ${release} | :heart_eyes: |" >> $GITHUB_STEP_SUMMARY
